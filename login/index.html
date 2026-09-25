@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CareLedger Login</title>
+  <meta name="theme-color" content="#217d78" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="CareLedger" />
+  <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32.png" />
+  <link rel="icon" type="image/svg+xml" href="../icon.svg" />
+  <link rel="manifest" href="../manifest.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #edf5f3;
+      --panel: #ffffff;
+      --panel-soft: #f5faf9;
+      --teal: #217d78;
+      --teal-deep: #16464a;
+      --line: #dbebe7;
+      --muted: #64767b;
+      --text: #182b32;
+      --shadow: 0 18px 44px rgba(22, 70, 74, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at top, #f7fbfa 0%, var(--bg) 48%, #e7f0ee 100%);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .login-shell {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      width: min(960px, calc(100vw - 32px));
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(125, 159, 156, 0.22);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+    .brand-panel {
+      padding: 42px 38px;
+      background: linear-gradient(180deg, #1e776f 0%, #1b5d60 100%);
+      color: #fff;
+      position: relative;
+    }
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.12);
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 24px;
+    }
+    .eyebrow {
+      display: inline-block;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      opacity: .7;
+      font-size: 11px;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(2.4rem, 5vw, 3.3rem);
+      line-height: 1.08;
+      letter-spacing: -0.06em;
+    }
+    .brand-copy {
+      margin-top: 18px;
+      max-width: 28ch;
+      color: rgba(255,255,255,.8);
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+    .info-pill {
+      margin-top: 28px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .form-panel {
+      padding: 38px 32px;
+      background: var(--panel);
+    }
+    .login-card {
+      max-width: 360px;
+      margin: 0 auto;
+    }
+    h2 {
+      margin: 0 0 8px;
+      font-size: 2rem;
+      letter-spacing: -0.05em;
+    }
+    .subtitle {
+      margin: 0 0 24px;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+    form {
+      display: grid;
+      gap: 16px;
+    }
+    label {
+      display: grid;
+      gap: 8px;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+    input {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 15px;
+      font: 600 15px 'Plus Jakarta Sans', sans-serif;
+      color: var(--text);
+      background: var(--panel-soft);
+      width: 100%;
+    }
+    input:focus {
+      outline: 2px solid rgba(33,125,120,.16);
+      border-color: var(--teal);
+    }
+    .primary-button {
+      border: 0;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--teal) 0%, #2a9b96 100%);
+      color: white;
+      padding: 15px 18px;
+      font: 800 15px 'Plus Jakarta Sans', sans-serif;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(33,125,120,.24);
+    }
+    .helper-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .helper-row a {
+      color: var(--teal);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .demo-box {
+      margin-top: 20px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: #f4faf8;
+      border: 1px solid var(--line);
+      color: var(--teal-deep);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .error {
+      min-height: 18px;
+      color: #b13d3d;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    @media (max-width: 760px) {
+      .login-shell {
+        grid-template-columns: 1fr;
+      }
+      .brand-panel, .form-panel { padding: 28px 22px; }
+      .brand-copy { max-width: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-shell">
+    <section class="brand-panel">
+      <div class="brand-mark">+</div>
+      <div class="eyebrow">CareLedger</div>
+      <h1>Clinic accounting, simplified.</h1>
+      <p class="brand-copy">Track patient balances, doctor settlements, and daily collections in one secure local workspace.</p>
+      <div class="info-pill">✓ Offline-ready practice ledger</div>
+    </section>
+
+    <section class="form-panel">
+      <div class="login-card">
+        <h2>Welcome back</h2>
+        <p class="subtitle">Use your clinic workspace credentials to continue.</p>
+
+        <form id="loginForm">
+          <label>
+            Username
+            <input name="username" type="text" value="admin" autocomplete="username" required />
+          </label>
+
+          <label>
+            Password
+            <input name="password" type="password" value="careledger" autocomplete="current-password" required />
+          </label>
+
+          <button class="primary-button" type="submit">Sign in to ledger</button>
+          <div class="helper-row">
+            <span>Need help?</span>
+            <a href="../">Open demo workspace</a>
+          </div>
+          <div id="loginError" class="error" aria-live="polite"></div>
+        </form>
+
+        <div class="demo-box">Demo access: username <strong>admin</strong> · password <strong>careledger</strong></div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    if (localStorage.getItem('careledger-auth')) {
+      window.location.replace('../');
+    }
+
+    const form = document.getElementById('loginForm');
+    const errorBox = document.getElementById('loginError');
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const username = (formData.get('username') || '').toString().trim();
+      const password = (formData.get('password') || '').toString();
+
+      if (username === 'admin' && password === 'careledger') {
+        localStorage.setItem('careledger-auth', JSON.stringify({ username, loggedInAt: new Date().toISOString() }));
+        window.location.replace('../');
+        return;
+      }
+
+      errorBox.textContent = 'Incorrect username or password. Please use the demo credentials shown below.';
+    });
+  </script>
+</body>
+</html>

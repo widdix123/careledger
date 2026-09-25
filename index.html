@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CareLedger POS</title>
+  <meta name="theme-color" content="#217d78" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="CareLedger" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+  <link rel="icon" type="image/svg+xml" href="icon.svg" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <script src="vendor/nepali-date-converter.umd.js?v=3"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=6" />
+  <style>
+    .practice-switcher select { display:block; width:145px; margin-top:4px; border:1px solid #d5e2df; border-radius:5px; background:#fff; color:#182b32; padding:5px 7px; font:600 11px 'Plus Jakarta Sans'; cursor:pointer; }
+    .modal select { min-height:40px; cursor:pointer; }
+    .date-filter { font-size:14px; }
+    .date-filter select { margin-left:7px; border:1px solid #d5e2df; border-radius:5px; background:#fff; color:#182b32; padding:7px 10px; font:700 15px 'Plus Jakarta Sans', sans-serif; cursor:pointer; }
+    .pending-percent { font:700 12px 'DM Mono', monospace; color:var(--coral); }
+    .doctor-settlement { margin:10px 0 4px; color:var(--muted); font:500 11px 'DM Mono', monospace; white-space:nowrap; }
+    .workspace-toggle { display:flex; gap:4px; width:max-content; margin:-20px 0 28px; padding:4px; background:#e9efed; border-radius:8px; }
+    .workspace-toggle-button { border:0; border-radius:6px; padding:8px 14px; background:transparent; color:#6d7d80; font:700 11px 'Plus Jakarta Sans'; cursor:pointer; }
+    .workspace-toggle-button.active { background:#fff; color:var(--teal); box-shadow:0 2px 8px rgba(25,52,56,.08); }
+    .entry-dates span { display:block; line-height:1.55; white-space:nowrap; }
+    .patient-link { border:0; background:transparent; padding:0; cursor:pointer; color:inherit; font:inherit; }
+    .patient-link:hover { color:var(--teal); }
+    .patient-history-summary { background:#f5f9f8; border-radius:6px; padding:11px 12px; color:#627578; font-size:11px; margin-bottom:14px; }
+    .patient-history-list { border-top:1px solid var(--line); max-height:280px; overflow:auto; }
+    .history-line { display:flex; justify-content:space-between; gap:12px; padding:13px 0; border-bottom:1px solid #eef2f1; font-size:11px; }
+    .history-line small { display:block; color:var(--muted); margin-top:4px; font-size:10px; }
+    .history-line > strong { color:var(--teal); font:600 12px 'DM Mono'; white-space:nowrap; }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark">+</span><span>CareLedger</span></div>
+    <div class="practice-switcher"><span class="clinic-dot"></span><div><strong>Active clinic</strong><select id="clinicSwitcher" aria-label="Active clinic"></select></div><span class="chevron">⌄</span></div>
+    <nav>
+      <button class="nav-item active" data-view="overview"><span class="nav-icon">▦</span> Overview</button>
+      <div class="nav-group">
+        <p class="nav-group-title"><span class="nav-icon">♙</span> Patients</p>
+        <div class="nav-sub">
+          <button class="nav-item" data-view="patients"><span class="nav-icon">☰</span> Patient register <span class="nav-count" id="patientCount">0</span></button>
+          <button class="nav-item" data-view="payments"><span class="nav-icon">◫</span> Payment history</button>
+          <button class="nav-item" data-view="reports"><span class="nav-icon">◒</span> Reports</button>
+          <button class="nav-item nav-action" id="navAddPatient"><span class="nav-icon">＋</span> Add patient</button>
+          <button class="nav-item nav-action" id="openPaymentNav"><span class="nav-icon">＋</span> Record visit</button>
+        </div>
+      </div>
+      <div class="nav-group">
+        <p class="nav-group-title"><span class="nav-icon">◈</span> Doctor</p>
+        <div class="nav-sub">
+          <button class="nav-item" data-view="doctorPayments"><span class="nav-icon">◫</span> Doctor payments</button>
+          <button class="nav-item nav-action" id="navDoctorPayment"><span class="nav-icon">＋</span> Record payment</button>
+          <button class="nav-item nav-action" id="openClinicNav"><span class="nav-icon">＋</span> Add clinic</button>
+        </div>
+      </div>
+    </nav>
+    <div class="sidebar-bottom"><div class="sync-status"><span class="sync-dot"></span><div><strong>Local workspace</strong><small>Saved on this device</small></div></div><div class="user-chip"><span class="avatar">AG</span><div><strong>Admin</strong><small>Practice manager</small></div><a class="logout-link" href="logout/" title="Sign out" aria-label="Sign out">⏻</a></div></div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar"><div><span class="eyebrow">Clinic ledger · Thursday, September 24, 2026</span><h1 id="pageTitle">Shanti Dental</h1></div><div class="top-actions"><button class="icon-button" title="Notifications">♢<span class="notification-dot"></span></button><button class="primary-button" id="addPatientButton"><span>＋</span> Add patient</button></div></header>
+    <div class="workspace-toggle" aria-label="Workspace section"><button class="workspace-toggle-button active" data-view="overview">Patient ledger</button><button class="workspace-toggle-button" data-view="doctorPayments">Doctor payments</button></div>
+
+    <section class="view active-view" id="overviewView">
+      <div class="section-intro"><div><h2>Patient ledger</h2><p>Ongoing and completed treatment accounts.</p></div><label class="date-filter">Visit date <select id="paymentDateSelect" aria-label="Visit date"></select></label></div>
+      <div class="stat-grid">
+        <article class="stat-card accent-teal"><div class="stat-head"><span>Patients on selected date</span><span class="stat-icon">♙</span></div><strong id="dailyPatientCount">0</strong><div class="stat-foot"><span class="trend up">↗ Visit entries</span><span id="dailyEntryLabel">0 entries</span></div></article>
+        <article class="stat-card accent-gold"><div class="stat-head"><span>Collected on selected date</span><span class="stat-icon">◉</span></div><strong id="dailyCollected">NPR 0</strong><div class="stat-foot"><span class="trend neutral">● Payments received</span><span id="paymentCountLabel">0 payments</span></div></article>
+        <article class="stat-card accent-blue"><div class="stat-head"><span>Doctor payment due (<span id="doctorSharePercentLabel">70</span>%)</span><span class="stat-icon">◈</span></div><strong id="dailyDoctorShare">NPR 0</strong><div class="doctor-settlement" id="doctorSettlementLine">Expected NPR 0 − Received NPR 0</div><div class="stat-foot"><span class="trend up">Remaining due</span><button class="text-button" id="recordDoctorPayment">＋ Add received</button></div></article>
+      </div>
+      <div class="content-grid">
+        <section class="panel table-panel"><div class="panel-header"><div><h3>Updated patients</h3><p>Patients with an entry on the selected visit date</p></div><button class="text-button" data-view="payments">View payment history <span>→</span></button></div><div class="table-wrap"><table><thead><tr><th>Entry date (BS)</th><th>Patient</th><th>Treatment</th><th>Payment</th><th>Pending</th><th>Cumulative</th><th></th></tr></thead><tbody id="overviewTable"></tbody></table></div><div class="empty-state hidden" id="overviewEmpty">No patients were updated on this date.</div></section>
+        <section class="panel activity-panel"><div class="panel-header"><div><h3>Selected-date activity</h3><p>Payment entries for the selected visit date</p></div><button class="icon-button small" title="Refresh activity" id="refreshButton">↻</button></div><div class="activity-list" id="activityList"></div></section>
+      </div>
+    </section>
+
+    <section class="view" id="patientsView"><div class="section-intro"><div><h2>Patients</h2><p>Every treatment plan, payment, balance, and recorded date in one place.</p></div><div class="list-actions"><label class="search-box"><span>⌕</span><input id="patientSearch" placeholder="Search patients" /></label><button class="primary-button" id="addPatientButton2"><span>＋</span> Add patient</button></div></div><div class="filter-tabs"><button class="filter-tab active" data-filter="all">All patients <span id="allPatientTabCount">0</span></button><button class="filter-tab" data-filter="outstanding">Outstanding <span id="outstandingTabCount">0</span></button><button class="filter-tab" data-filter="cleared">Cleared <span id="clearedTabCount">0</span></button></div><section class="panel table-panel patient-list-panel"><div class="table-wrap"><table><thead><tr><th>Patient</th><th>Treatment</th><th>Total cost</th><th>Paid</th><th>Balance</th><th>Pending</th><th>Entry dates (BS)</th><th>Status</th><th></th></tr></thead><tbody id="patientsTable"></tbody></table></div><div class="empty-state hidden" id="patientsEmpty">No patients match this view.</div></section></section>
+
+    <section class="view" id="paymentsView"><div class="section-intro"><div><h2>Patient visit ledger</h2><p>Each patient visit and payment at <span id="paymentClinicLabel">this clinic</span>.</p></div><button class="primary-button" id="addPaymentButton"><span>＋</span> Record patient visit</button></div><section class="panel table-panel payment-history-panel"><div class="table-wrap"><table><thead><tr><th>Visit date (BS)</th><th>Patient</th><th>Visit</th><th>Payment</th><th>Cumulative payment</th><th>Note</th></tr></thead><tbody id="paymentsTable"></tbody></table></div><div class="empty-state hidden" id="paymentsEmpty">No patient visits recorded for this clinic yet.</div></section></section>
+
+    <section class="view" id="doctorPaymentsView"><div class="section-intro"><div><h2>Doctor payment history</h2><p>Payments received for visits at <span id="doctorPaymentClinicLabel">this clinic</span>.</p></div><button class="primary-button" id="addDoctorPaymentButton"><span>＋</span> Record doctor payment</button></div><section class="panel table-panel payment-history-panel"><div class="table-wrap"><table><thead><tr><th>Visit date (BS)</th><th>Recorded on (BS)</th><th>Amount received</th><th>Note</th></tr></thead><tbody id="doctorPaymentsTable"></tbody></table></div><div class="empty-state hidden" id="doctorPaymentsEmpty">No doctor payments recorded for this clinic yet.</div></section></section>
+
+    <section class="view" id="reportsView"><div class="section-intro"><div><h2>Reports</h2><p>A clear view of what is owed and what is complete.</p></div><button class="secondary-button" id="printReport">⇧ Export report</button></div><div class="report-cards"><section class="report-card outstanding-card"><div class="report-card-heading"><div class="report-symbol">◌</div><div><h3>Outstanding balances</h3><p>Payment plans that still need attention</p></div></div><div class="report-total" id="reportOutstandingTotal">Rs 0</div><div class="report-list" id="outstandingReport"></div></section><section class="report-card cleared-card"><div class="report-card-heading"><div class="report-symbol">✓</div><div><h3>Cleared payment plans</h3><p>Patients who have completed payment</p></div></div><div class="report-total" id="reportClearedTotal">0 patients</div><div class="report-list" id="clearedReport"></div></section></div></section>
+  </main>
+
+  <div class="modal-backdrop hidden" id="patientModal"><div class="modal"><div class="modal-header"><div><span class="eyebrow" id="patientModalEyebrow">New ledger entry</span><h2 id="patientModalTitle">Add patient</h2></div><button class="close-button" data-close="patientModal">×</button></div><form id="patientForm"><label>Select clinic for this patient<select required name="clinicId" id="patientClinicSelect"></select></label><label>Patient name<input required name="name" placeholder="e.g. Ramesh Kumar" /></label><div class="form-row"><label>Phone number<input name="phone" placeholder="e.g. 98765 43210" /></label><label>Address<input name="address" placeholder="Area or locality" /></label></div><label>Treatment<input required name="treatment" placeholder="e.g. Root canal treatment" /></label><div class="form-row"><label>Total cost<input required min="0" step="0.01" type="number" name="total" placeholder="0.00" /></label><label>First payment<input min="0" step="0.01" type="number" name="firstPayment" placeholder="0.00" /></label></div><label>Notes <span class="optional">Optional</span><textarea name="notes" rows="2" placeholder="Payment plan notes..." ></textarea></label><div class="form-actions"><button type="button" class="secondary-button" data-close="patientModal">Cancel</button><button class="primary-button" type="submit" id="patientSubmitButton">Create patient</button></div></form></div></div>
+  <div class="modal-backdrop hidden" id="clinicModal"><div class="modal"><div class="modal-header"><div><span class="eyebrow">Doctor workspace</span><h2>Add clinic</h2></div><button class="close-button" data-close="clinicModal">×</button></div><form id="clinicForm"><label>Clinic name<input required name="name" placeholder="e.g. Patan Health Centre" /></label><label>Address <span class="optional">Optional</span><input name="address" placeholder="Clinic address" /></label><label>Phone <span class="optional">Optional</span><input name="phone" placeholder="Clinic contact number" /></label><label>Doctor share percentage<input required min="0" max="100" step="1" type="number" name="doctorSharePercent" value="70" /><small class="date-preview">The clinic-specific percentage used for doctor payment due.</small></label><div class="form-actions"><button type="button" class="secondary-button" data-close="clinicModal">Cancel</button><button class="primary-button" type="submit">Add clinic</button></div></form></div></div>
+  <div class="modal-backdrop hidden" id="paymentModal"><div class="modal"><div class="modal-header"><div><span class="eyebrow" id="paymentModalEyebrow">Patient visit</span><h2 id="paymentModalTitle">Record patient visit</h2></div><button class="close-button" data-close="paymentModal">×</button></div><form id="paymentForm"><label>Patient<select required name="patientId" id="paymentPatientSelect"><option value="">Choose a patient</option></select></label><div class="payment-balance" id="paymentBalancePreview">Select a patient to see the current balance.</div><div class="form-row"><label>Amount paid<input required min="0.01" step="0.01" type="number" name="amount" placeholder="0.00" /></label><label>Visit date<input required type="date" name="adDate" /><small class="date-preview" id="paymentBsPreview">Nepali BS date will appear here</small></label></div><label>Visit note <span class="optional">Optional</span><input name="note" placeholder="e.g. Follow-up completed" /></label><div class="form-actions"><button type="button" class="secondary-button" data-close="paymentModal">Cancel</button><button class="primary-button" type="submit" id="paymentSubmitButton">Save patient visit</button></div></form></div></div>
+  <div class="modal-backdrop hidden" id="visitModal"><div class="modal"><div class="modal-header"><div><span class="eyebrow">Monthly care</span><h2>Log patient visit</h2></div><button class="close-button" data-close="visitModal">×</button></div><form id="visitForm"><label>Patient<select required name="patientId" id="visitPatientSelect"><option value="">Choose a patient</option></select></label><div class="form-row"><label>Visit date<input required type="date" name="adDate" /><small class="date-preview" id="visitBsPreview">Nepali BS date will appear here</small></label><label>Visit type<input required name="type" value="Monthly visit" /></label></div><label>Visit note <span class="optional">Optional</span><input name="note" placeholder="e.g. Follow-up completed" /></label><div class="form-actions"><button type="button" class="secondary-button" data-close="visitModal">Cancel</button><button class="primary-button" type="submit">Save visit</button></div></form></div></div>
+  <div class="modal-backdrop hidden" id="doctorPaymentModal"><div class="modal"><div class="modal-header"><div><span class="eyebrow" id="doctorPaymentModalEyebrow">Doctor settlement</span><h2 id="doctorPaymentModalTitle">Record amount received</h2></div><button class="close-button" data-close="doctorPaymentModal">×</button></div><form id="doctorPaymentForm"><label>Visit date<input required type="date" name="visitDate" /><small class="date-preview" id="doctorVisitBsPreview">Visit date in Nepali BS</small></label><label>Recorded on<input required type="date" name="recordedDate" /><small class="date-preview" id="doctorRecordedBsPreview">Recorded date in Nepali BS</small></label><label>Amount received<input required min="0.01" step="0.01" type="number" name="amount" placeholder="0.00" /></label><label>Note <span class="optional">Optional</span><input name="note" placeholder="e.g. Paid by bank transfer" /></label><div class="form-actions"><button type="button" class="secondary-button" data-close="doctorPaymentModal">Cancel</button><button class="primary-button" type="submit" id="doctorPaymentSubmitButton">Save received amount</button></div></form></div></div>
+  <div class="modal-backdrop hidden" id="patientHistoryModal"><div class="modal"><div class="modal-header"><div><span class="eyebrow">Patient account</span><h2 id="historyPatientName">Payment history</h2></div><button class="close-button" data-close="patientHistoryModal">×</button></div><div class="patient-history-summary" id="historyPatientSummary"></div><div class="patient-history-list" id="patientHistoryList"></div><div class="form-actions"><button type="button" class="secondary-button" data-close="patientHistoryModal">Close</button></div></div></div>
+  <div class="toast hidden" id="toast"></div>
+  <script>
+    (function () {
+      if (!localStorage.getItem('careledger-auth')) {
+        window.location.replace('login/');
+      }
+    })();
+  </script>
+  <script src="app.js?v=6"></script>
+</body>
+</html>
