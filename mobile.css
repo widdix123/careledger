@@ -187,3 +187,78 @@
   .stat-card > strong { font-size: 14px !important; }
 }
 @keyframes sheet-in { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* ---- Native app feel (phones) ---- */
+@media (max-width: 720px) {
+  html, body { overscroll-behavior-y: none; }
+  body { -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; }
+  button, .tab-item, .sheet-item, a { -webkit-user-select: none; user-select: none; touch-action: manipulation; }
+  button:active, .sheet-item:active, .pay-button:active { transform: scale(.97); }
+  .tab-item:active .tab-icon { transform: scale(.9); }
+  .view.active-view { animation: screen-in .18s ease-out; }
+
+  /* Tabs + sheet replace the drawer */
+  .menu-button, .sidebar, .drawer-backdrop { display: none !important; }
+  .mobile-bar { padding-left: 16px; }
+  .mobile-brand .brand-mark { width: 32px; height: 32px; }
+  .mobile-brand strong { font-size: 17px; letter-spacing: -.2px; }
+  .section-intro h2 { display: none; }
+  .section-intro:not(:has(.list-actions, .primary-button, .date-filter)) { display: none; }
+
+  .tab-icon svg { width: 22px; height: 22px; }
+  .tab-item:not(.active) .tab-icon svg { opacity: .85; }
+
+  /* More sheet */
+  .sheet-backdrop { display: flex; align-items: flex-end; position: fixed; inset: 0; z-index: 45; background: rgba(11, 35, 80, .45); animation: fade-in .18s ease-out; }
+  .sheet-backdrop.hidden { display: none !important; }
+  .sheet { width: 100%; max-height: 88vh; overflow-y: auto; padding: 8px 14px calc(16px + env(safe-area-inset-bottom)); background: #f2f6fc; border-radius: 22px 22px 0 0; animation: sheet-in .22s ease-out; }
+  .sheet-handle { width: 40px; height: 4px; margin: 4px auto 14px; border-radius: 2px; background: #cfd9e8; }
+  .sheet-profile { width: 100%; display: flex; align-items: center; gap: 12px; padding: 14px; margin-bottom: 12px; border: 0; border-radius: 16px; background: linear-gradient(120deg, var(--navy) 0%, var(--teal) 100%); color: #fff; text-align: left; cursor: pointer; }
+  .sheet-profile .avatar { width: 44px; height: 44px; font-size: 15px; }
+  .sheet-profile div { flex: 1; min-width: 0; display: grid; gap: 2px; }
+  .sheet-profile strong { font: 700 16px var(--display); }
+  .sheet-profile small { color: rgba(255, 255, 255, .75); font-size: 12.5px; }
+  .sheet-profile .sheet-chev { color: rgba(255, 255, 255, .7); }
+  .sheet-clinic { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; margin-bottom: 12px; background: #fff; border-radius: 14px; color: var(--muted); font: 600 13px var(--ui); }
+  .sheet-clinic select { flex: 1; max-width: 62%; -webkit-appearance: none; appearance: none; border: 0; background: var(--teal-soft); color: var(--teal); border-radius: 10px; padding: 9px 12px; font: 700 15px var(--display); text-align: right; }
+  .sheet-list { margin-bottom: 12px; overflow: hidden; background: #fff; border-radius: 14px; }
+  .sheet-item { width: 100%; display: flex; align-items: center; gap: 12px; padding: 14px; border: 0; border-bottom: 1px solid #eef2f8; background: #fff; color: var(--ink); font: 600 15px var(--ui); text-align: left; text-decoration: none; cursor: pointer; }
+  .sheet-item:last-child { border-bottom: 0; }
+  .sheet-icon { display: grid; place-items: center; width: 34px; height: 34px; flex: none; border-radius: 10px; background: var(--teal-soft); color: var(--teal); }
+  .sheet-icon svg { width: 19px; height: 19px; }
+  .sheet-chev { margin-left: auto; color: #b3bfd1; font-size: 22px; line-height: 1; }
+  .sheet-item.danger { color: var(--coral); }
+  .sheet-item.danger .sheet-icon { background: var(--coral-soft); color: var(--coral); }
+  body.sheet-open { overflow: hidden; }
+  body.sheet-open .fab { display: none; }
+
+  /* Settlement rows: "02 Aswin 2083 · Due NPR 420 · [Pay]" */
+  .settlement-panel { margin-bottom: 12px; }
+  .settlement-due strong { font-size: 14px; }
+  #settlementTable tr, #overviewSettlementTable tr { grid-template-columns: minmax(0, 1fr) auto auto; grid-template-areas: "d due act" "s r act"; }
+  #settlementTable td:nth-child(1), #overviewSettlementTable td:nth-child(1) { grid-area: d; font-size: 14.5px; }
+  #settlementTable td:nth-child(5), #overviewSettlementTable td:nth-child(5) { grid-area: due; justify-self: end; font-size: 14.5px; }
+  #settlementTable td:nth-child(3), #overviewSettlementTable td:nth-child(3) { grid-area: s; color: var(--muted); font-size: 12px; }
+  #settlementTable td:nth-child(3)::before, #overviewSettlementTable td:nth-child(3)::before { display: inline; content: "Share "; }
+  #settlementTable td:nth-child(4), #overviewSettlementTable td:nth-child(4) { grid-area: r; justify-self: end; font-size: 12px; }
+  #settlementTable td:nth-child(4)::before, #overviewSettlementTable td:nth-child(4)::before { display: inline; content: "Paid "; color: var(--muted); font-weight: 500; }
+  #settlementTable td:nth-child(6), #overviewSettlementTable td:nth-child(6) { grid-area: act; align-self: center; padding-left: 4px; }
+  #settlementTable td:nth-child(2), #overviewSettlementTable td:nth-child(2) { display: none; }
+  .pay-button { padding: 9px 16px; font-size: 13px; }
+
+  /* Treatments on phones */
+  .treatments-editor { padding: 12px; }
+  .treatment-row { grid-template-columns: minmax(0, 1fr) 92px 30px; grid-template-areas: "plan plan plan" "name cost rm"; row-gap: 6px; padding-bottom: 8px; border-bottom: 1px dashed #d5deec; }
+  .treatment-row:last-child { border-bottom: 0; padding-bottom: 0; }
+  .treatment-row .t-plan { grid-area: plan; }
+  .treatment-row .t-name { grid-area: name; }
+  .treatment-row .t-cost { grid-area: cost; }
+  .treatment-row .t-remove { grid-area: rm; }
+  .treatment-row select, .treatment-row input { font-size: 16px; padding: 10px; }
+  .treatment-list { display: block; }
+  .treatment-list span { display: inline; }
+  .treatment-list span + span::before { content: " + "; }
+  .treatment-list b { display: none; }
+}
+@keyframes screen-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }

@@ -278,3 +278,44 @@ body[data-screen="patients"] #addPatientButton{display:none}
 .modal form>*,.modal label,.setup-form>*,.setup-form label{min-width:0}
 .modal label:has(> .optional),.setup-form label:has(> .optional){grid-template-columns:auto minmax(0,1fr)}
 .modal input,.modal select,.modal textarea,.setup-form input:not([type=radio]){width:100%;min-width:0;box-sizing:border-box}
+
+/* Multiple treatments per patient */
+.treatments-editor{margin:0;padding:14px;border:1px solid var(--line);border-radius:14px;background:#f8fafe;display:grid;gap:10px;min-width:0}
+.treatments-editor legend{padding:0 6px;color:#44536d;font:700 13px var(--ui)}
+#treatmentRows{display:grid;gap:8px}
+.treatment-row{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.3fr) 96px 32px;gap:6px;align-items:center}
+.treatment-row select,.treatment-row input{width:100%;min-width:0;border:1px solid var(--line);border-radius:9px;padding:9px 10px;background:#fff;font:500 13.5px var(--ui);color:var(--ink);outline:0}
+.treatment-row select:focus,.treatment-row input:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-soft)}
+.t-remove{width:32px;height:32px;border:0;border-radius:8px;background:transparent;color:#9aa8bd;font-size:18px;cursor:pointer}
+.t-remove:hover{background:var(--coral-soft);color:var(--coral)}
+.add-treatment{justify-self:start;border:0;background:none;padding:2px 0;color:var(--teal);font:700 13px var(--ui);cursor:pointer}
+.treatments-total{display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px dashed #d5deec;color:var(--muted);font:600 13px var(--ui)}
+.treatments-total strong{color:var(--ink);font:700 17px var(--display)}
+.treatment-list{display:grid;gap:3px}
+.treatment-list span{display:flex;justify-content:space-between;gap:14px}
+.treatment-list b{color:var(--ink);font-weight:600}
+.history-treatments{display:grid;gap:6px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px dashed #d5deec}
+.history-treatments div{display:flex;justify-content:space-between;gap:12px;color:var(--ink);font-size:13px}
+.history-total{padding-top:6px;border-top:1px solid var(--line);font-weight:700}
+.patient-history-summary{font-size:13px}
+
+/* Doctor settlement by visit date */
+.settlement-panel{margin-bottom:18px}
+.settlement-due{font:600 13px var(--ui);color:var(--muted);white-space:nowrap}
+.settlement-due strong{color:var(--coral);font:700 16px var(--display)}
+.pay-button{border:0;border-radius:8px;padding:7px 14px;background:var(--teal);color:#fff;font:700 12.5px var(--ui);cursor:pointer;box-shadow:0 4px 10px rgba(14,99,214,.2)}
+.pay-button:hover{background:var(--teal-deep)}
+.settled-chip{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--green-soft);color:var(--green);font-weight:800}
+td.settled-text{font-weight:700}
+
+/* Phone-only sheet hidden on larger screens */
+.sheet-backdrop{display:none}
+/* Keep the register's action buttons in view */
+@media(min-width:721px){
+  .patient-list-panel th,.patient-list-panel td{padding-left:10px;padding-right:10px}
+  .patient-list-panel td:last-child{white-space:nowrap;padding-right:14px}
+  .patient-list-panel .treatment-list span{gap:10px}
+  .patient-list-panel .treatment-list b{font-size:12.5px}
+  .patient-list-panel .status-select{padding-right:24px}
+}
+@media(min-width:721px) and (max-width:1500px){.patient-list-panel th:nth-child(7),.patient-list-panel td:nth-child(7){display:none}}
