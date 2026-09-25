@@ -228,7 +228,7 @@ tbody tr:hover td{background:#f7faff}
 /* Mobile bar hidden on larger screens */
 .mobile-bar,.drawer-backdrop{display:none}
 /* Patient register has no add buttons */
-body[data-view="patients"] #addPatientButton{display:none}
+body[data-screen="patients"] #addPatientButton{display:none}
 
 /* Status tones (doctor-defined statuses) */
 .tone-blue{--tone:#0e63d6;--tone-soft:#e7f0fe}

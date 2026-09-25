@@ -26,7 +26,7 @@
   .tab-item.active .tab-icon { background: var(--teal-soft); }
   .fab { display: grid; place-items: center; position: fixed; z-index: 24; right: 16px; bottom: calc(76px + env(safe-area-inset-bottom)); width: 54px; height: 54px; border: 0; border-radius: 18px; background: linear-gradient(135deg, var(--teal) 0%, #2f8cff 100%); color: #fff; font-size: 26px; box-shadow: 0 10px 24px rgba(14, 99, 214, .35); cursor: pointer; }
   #paymentsView .list-actions .primary-button, #doctorPaymentsView .list-actions .primary-button { display: none; }
-  body[data-view="patients"] .fab, body[data-view="setup"] .fab, body.drawer-open .fab { display: none; }
+  body[data-screen="patients"] .fab, body[data-screen="setup"] .fab, body.drawer-open .fab { display: none; }
 
   /* Drawer */
   .sidebar { position: fixed; z-index: 40; top: 0; left: 0; bottom: 0; width: min(84vw, 310px); height: 100%; min-height: 0; padding: calc(20px + env(safe-area-inset-top)) 14px calc(16px + env(safe-area-inset-bottom)); overflow-y: auto; transform: translateX(-102%); transition: transform .25s ease; box-shadow: 12px 0 40px rgba(0, 0, 0, .3); }
