@@ -229,3 +229,52 @@ tbody tr:hover td{background:#f7faff}
 .mobile-bar,.drawer-backdrop{display:none}
 /* Patient register has no add buttons */
 body[data-view="patients"] #addPatientButton{display:none}
+
+/* Status tones (doctor-defined statuses) */
+.tone-blue{--tone:#0e63d6;--tone-soft:#e7f0fe}
+.tone-red{--tone:#e5484d;--tone-soft:#fdecec}
+.tone-green{--tone:#12a36b;--tone-soft:#e2f7ee}
+.tone-amber{--tone:#c77700;--tone-soft:#fff3dc}
+.tone-purple{--tone:#7c4dff;--tone-soft:#efe9ff}
+.tone-slate{--tone:#5b6b85;--tone-soft:#edf1f7}
+.status-badge[class*="tone-"]{background:var(--tone-soft);color:var(--tone)}
+.status-select[class*="tone-"]{background-color:var(--tone-soft);color:var(--tone);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%235b6b85' stroke-width='2'/%3E%3C/svg%3E")}
+.tone-dot{display:inline-block;width:8px;height:8px;margin-right:7px;border-radius:50%;background:var(--tone);vertical-align:1px}
+
+/* Plans & statuses page */
+.setup-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start}
+.setup-form{display:grid;gap:14px;padding:18px 21px;border-bottom:1px solid var(--line)}
+.setup-form label{display:grid;gap:7px;color:#44536d;font:600 13px var(--ui)}
+.setup-form input:not([type=radio]){border:1px solid var(--line);border-radius:10px;padding:11px 12px;font:500 14px var(--ui);color:var(--ink);outline:0}
+.setup-form input:focus{border-color:var(--teal);box-shadow:0 0 0 4px var(--teal-soft)}
+.setup-form-actions{display:flex;justify-content:flex-end;gap:9px}
+.tone-picker{display:flex;flex-wrap:wrap;gap:10px;margin:0;padding:0;border:0}
+.tone-picker legend{margin-bottom:8px;color:#44536d;font:600 13px var(--ui)}
+.tone-chip{position:relative;cursor:pointer}
+.tone-chip input{position:absolute;opacity:0}
+.tone-chip span{display:block;width:30px;height:30px;border-radius:50%;background:var(--tone);box-shadow:0 0 0 3px #fff,0 0 0 4px var(--line)}
+.tone-chip input:checked+span{box-shadow:0 0 0 3px #fff,0 0 0 5px var(--tone)}
+.tone-chip input:focus-visible+span{outline:2px solid var(--ink);outline-offset:4px}
+.setup-list{padding:6px 21px 12px}
+.setup-item{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #eef2f8}
+.setup-item:last-child{border-bottom:0}
+.setup-item-main{flex:1;min-width:0;display:grid;gap:3px}
+.setup-item-main strong{font-size:14px}
+.setup-item-main small{color:var(--muted);font-size:12px}
+.setup-price{font:700 14px var(--ui);color:var(--ink);white-space:nowrap}
+.row-action.danger:hover{color:var(--coral)}
+@media(max-width:1050px){.setup-grid{grid-template-columns:1fr}}
+
+/* Doctor visit preview */
+.due-text{color:var(--coral)}
+.settled-text{color:var(--green)}
+
+/* Phone-only controls hidden on larger screens */
+.tab-bar,.fab{display:none}
+/* "Optional" sits beside its label, not on its own line */
+.modal label:has(> .optional),.setup-form label:has(> .optional){grid-template-columns:auto 1fr;align-items:center}
+.modal label:has(> .optional)>:not(.optional),.setup-form label:has(> .optional)>:not(.optional){grid-column:1 / -1}
+.optional{margin-left:6px}
+.modal form>*,.modal label,.setup-form>*,.setup-form label{min-width:0}
+.modal label:has(> .optional),.setup-form label:has(> .optional){grid-template-columns:auto minmax(0,1fr)}
+.modal input,.modal select,.modal textarea,.setup-form input:not([type=radio]){width:100%;min-width:0;box-sizing:border-box}
