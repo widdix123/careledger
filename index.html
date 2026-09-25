@@ -37,12 +37,12 @@
     .history-line small { display:block; color:var(--muted); margin-top:4px; font-size:10px; }
     .history-line > strong { color:var(--teal); font:600 12px Inter; white-space:nowrap; }
   </style>
-  <link rel="stylesheet" href="theme.css?v=3" />
+  <link rel="stylesheet" href="theme.css?v=7" />
 </head>
 <body>
   <aside class="sidebar">
-    <div class="brand"><span class="brand-mark">+</span><span>CareLedger</span></div>
-    <div class="practice-switcher"><span class="clinic-dot"></span><div><strong>Active clinic</strong><select id="clinicSwitcher" aria-label="Active clinic"></select></div><span class="chevron">⌄</span></div>
+    <div class="brand"><span class="brand-mark"><svg viewBox="6 3 52 52" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 8v13a11 11 0 0 0 22 0V8"/><path d="M25 32v7a11 11 0 0 0 22 0v-5"/><circle cx="47" cy="27" r="6"/><path d="M11 8h6M33 8h6"/></svg></span><span>CareLedger</span></div>
+    <div class="practice-switcher"><div class="switcher-label"><span class="clinic-dot"></span>Active clinic</div><select id="clinicSwitcher" aria-label="Active clinic"></select></div>
     <nav>
       <button class="nav-item active" data-view="overview"><span class="nav-icon">▦</span> Overview</button>
       <div class="nav-group" data-group-id="patients">
@@ -64,11 +64,12 @@
         </div>
       </div>
     </nav>
-    <div class="sidebar-bottom"><div class="sync-status"><span class="sync-dot"></span><div><strong>Local workspace</strong><small>Saved on this device</small></div></div><div class="user-chip"><span class="avatar">AG</span><div><strong>Admin</strong><small>Practice manager</small></div><a class="logout-link" href="logout/" title="Sign out" aria-label="Sign out">⏻</a></div></div>
+    <div class="sidebar-bottom"><div class="sync-status"><span class="sync-dot"></span><div><strong>Local workspace</strong><small>Saved on this device</small></div></div><div class="user-chip"><button type="button" class="user-profile" id="openProfile" title="Edit profile"><span class="avatar" id="profileInitials">AD</span><div><strong id="profileName">Admin</strong><small id="profileRole">Practice manager</small></div><span class="profile-edit">✎</span></button><a class="logout-link" href="logout/" title="Sign out" aria-label="Sign out">⏻</a></div></div>
   </aside>
 
   <main class="main-content">
-    <header class="topbar"><div><span class="eyebrow" id="todayLabel">Clinic ledger</span><h1 id="pageTitle">Shanti Dental</h1></div><div class="top-actions"><button class="icon-button" title="Notifications">♢<span class="notification-dot"></span></button><button class="primary-button" id="addPatientButton"><span>＋</span> Add patient</button></div></header>
+    <div class="page-watermark" aria-hidden="true"><svg viewBox="6 3 52 52" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 8v13a11 11 0 0 0 22 0V8"/><path d="M25 32v7a11 11 0 0 0 22 0v-5"/><circle cx="47" cy="27" r="6"/><path d="M11 8h6M33 8h6"/></svg></div>
+    <header class="topbar"><div class="clinic-banner"><span class="eyebrow" id="todayLabel">Clinic ledger</span><h1 id="pageTitle">Shanti Dental</h1></div><div class="top-actions"><button class="icon-button" title="Notifications">♢<span class="notification-dot"></span></button><button class="primary-button" id="addPatientButton"><span>＋</span> Add patient</button></div></header>
     <div class="workspace-toggle" aria-label="Workspace section"><button class="workspace-toggle-button active" data-view="overview">Patient ledger</button><button class="workspace-toggle-button" data-view="doctorPayments">Doctor payments</button></div>
 
     <section class="view active-view" id="overviewView">
@@ -99,6 +100,7 @@
   <div class="modal-backdrop hidden" id="visitModal"><div class="modal"><div class="modal-header"><div><span class="eyebrow">Monthly care</span><h2>Log patient visit</h2></div><button class="close-button" data-close="visitModal">×</button></div><form id="visitForm"><label>Patient<select required name="patientId" id="visitPatientSelect"><option value="">Choose a patient</option></select></label><div class="form-row"><label>Visit date<input required type="date" name="adDate" /><small class="date-preview" id="visitBsPreview">Nepali BS date will appear here</small></label><label>Visit type<input required name="type" value="Monthly visit" /></label></div><label>Visit note <span class="optional">Optional</span><input name="note" placeholder="e.g. Follow-up completed" /></label><div class="form-actions"><button type="button" class="secondary-button" data-close="visitModal">Cancel</button><button class="primary-button" type="submit">Save visit</button></div></form></div></div>
   <div class="modal-backdrop hidden" id="doctorPaymentModal"><div class="modal"><div class="modal-header"><div><span class="eyebrow" id="doctorPaymentModalEyebrow">Doctor settlement</span><h2 id="doctorPaymentModalTitle">Record amount received</h2></div><button class="close-button" data-close="doctorPaymentModal">×</button></div><form id="doctorPaymentForm"><label>Visit date<input required type="date" name="visitDate" /><small class="date-preview" id="doctorVisitBsPreview">Visit date in Nepali BS</small></label><label>Recorded on<input required type="date" name="recordedDate" /><small class="date-preview" id="doctorRecordedBsPreview">Recorded date in Nepali BS</small></label><label>Amount received<input required min="0.01" step="0.01" type="number" name="amount" placeholder="0.00" /></label><label>Note <span class="optional">Optional</span><input name="note" placeholder="e.g. Paid by bank transfer" /></label><div class="form-actions"><button type="button" class="secondary-button" data-close="doctorPaymentModal">Cancel</button><button class="primary-button" type="submit" id="doctorPaymentSubmitButton">Save received amount</button></div></form></div></div>
   <div class="modal-backdrop hidden" id="patientHistoryModal"><div class="modal"><div class="modal-header"><div><span class="eyebrow">Patient account</span><h2 id="historyPatientName">Payment history</h2></div><button class="close-button" data-close="patientHistoryModal">×</button></div><div class="patient-history-summary" id="historyPatientSummary"></div><div class="patient-history-list" id="patientHistoryList"></div><div class="form-actions"><button type="button" class="secondary-button" data-close="patientHistoryModal">Close</button></div></div></div>
+  <div class="modal-backdrop hidden" id="profileModal"><div class="modal"><div class="modal-header"><div><span class="eyebrow">Your profile</span><h2>Doctor details</h2></div><button class="close-button" data-close="profileModal">×</button></div><form id="profileForm"><label>Doctor name<input required name="name" placeholder="e.g. Dr. Rahul Sharma" /><small class="date-preview">Shown in the sidebar and the header.</small></label><label>Title or speciality<input name="role" placeholder="e.g. Dental surgeon" /></label><label>Registration no. <span class="optional">Optional</span><input name="registration" placeholder="e.g. NMC 12345" /></label><div class="form-actions"><button type="button" class="secondary-button" data-close="profileModal">Cancel</button><button class="primary-button" type="submit">Save profile</button></div></form></div></div>
   <div class="toast hidden" id="toast"></div>
   <script>
     (function () {
@@ -107,6 +109,6 @@
       }
     })();
   </script>
-  <script src="app.js?v=8"></script>
+  <script src="app.js?v=9"></script>
 </body>
 </html>

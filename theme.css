@@ -154,3 +154,58 @@ tbody tr:hover td{background:#f7faff}
   .nav-item .nav-count{display:none}
 }
 .search-box input[type=search]{-webkit-appearance:none;appearance:none}
+
+/* Brand mark: stethoscope */
+.brand-mark{color:var(--teal)}
+.brand-mark svg{width:22px;height:22px}
+
+/* Background watermark */
+.main-content{position:relative;isolation:isolate}
+.page-watermark{position:fixed;right:-70px;bottom:-90px;width:560px;height:560px;color:var(--teal);opacity:.045;pointer-events:none;z-index:-1}
+.page-watermark svg{width:100%;height:100%}
+
+/* Header: blue block fits the clinic name, actions sit beside it */
+.topbar{background:none;box-shadow:none;padding:0;border-radius:0;color:inherit;overflow:visible;align-items:center;gap:16px}
+.topbar::after{display:none}
+.clinic-banner{position:relative;overflow:hidden;display:inline-block;max-width:100%;padding:20px 30px 22px 26px;border-radius:18px;color:#fff;background:linear-gradient(120deg,var(--teal-deep) 0%,var(--teal) 70%,#2f8cff 100%);box-shadow:0 14px 34px rgba(14,99,214,.25)}
+.clinic-banner::after{content:"";position:absolute;right:-18px;bottom:-26px;width:96px;height:96px;opacity:.14;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='6 3 52 52' fill='none' stroke='white' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 8v13a11 11 0 0 0 22 0V8'/%3E%3Cpath d='M25 32v7a11 11 0 0 0 22 0v-5'/%3E%3Ccircle cx='47' cy='27' r='6'/%3E%3Cpath d='M11 8h6M33 8h6'/%3E%3C/svg%3E") center/contain no-repeat}
+.clinic-banner h1{padding-right:40px;overflow-wrap:anywhere}
+.topbar .icon-button{color:var(--muted)}
+.topbar .primary-button{background:var(--teal);color:#fff;box-shadow:0 6px 16px rgba(14,99,214,.25)}
+.topbar .primary-button:hover{background:var(--teal-deep)}
+
+/* Active clinic card */
+.practice-switcher{display:block;padding:14px 14px 15px;margin-bottom:26px;border-radius:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14)}
+.switcher-label{display:flex;align-items:center;gap:9px;margin-bottom:10px;color:#9fb4dc;font:700 11px var(--ui);letter-spacing:1px;text-transform:uppercase}
+.practice-switcher select{display:block;width:100%;margin:0;padding:11px 36px 11px 13px;border:0;border-radius:10px;cursor:pointer;color:var(--ink);font:700 15px var(--display);-webkit-appearance:none;appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%230e63d6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 13px center/12px 8px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.practice-switcher select:focus{outline:3px solid rgba(143,211,255,.5)}
+
+/* Profile button */
+.user-chip{gap:4px;padding-top:14px}
+.user-profile{flex:1;min-width:0;display:flex;align-items:center;gap:10px;padding:7px 8px;border:0;border-radius:10px;background:transparent;color:inherit;text-align:left;cursor:pointer}
+.user-profile:hover{background:rgba(255,255,255,.08)}
+.user-profile>div{display:grid;gap:2px;min-width:0}
+.user-profile strong{color:#fff;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.user-profile small{color:#9fb4dc;font-size:11.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.avatar{width:34px;height:34px;flex:none;font-size:12px}
+.profile-edit{margin-left:auto;color:#9fb4dc;font-size:13px;opacity:0;transition:opacity .15s}
+.user-profile:hover .profile-edit{opacity:1}
+
+@media(max-width:720px){
+  .topbar{flex-wrap:wrap}
+  .clinic-banner{padding:16px 18px;border-radius:14px}
+  .page-watermark{width:320px;height:320px;right:-60px;bottom:-60px}
+  .user-chip{flex-direction:column;gap:10px}
+  .user-chip .avatar{display:grid}
+  .user-profile{justify-content:center;padding:4px}
+  .user-profile>div,.profile-edit{display:none}
+  .practice-switcher{display:none}
+}
+.practice-switcher .switcher-label{display:flex;gap:9px}
+.user-profile strong,.user-profile small{white-space:normal;overflow:visible;line-height:1.3}
+.user-profile{position:relative;padding-right:8px}
+.profile-edit{position:absolute;right:4px;top:4px;font-size:11px}
+.user-profile strong{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13.5px}
+.user-profile small{font-size:11px}
+.sidebar{padding-left:14px;padding-right:14px}
+@media(min-width:721px){.sidebar{width:272px;flex:none}}
