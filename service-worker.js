@@ -1,5 +1,5 @@
-const CACHE_NAME = 'careledger-shell-v7';
-const APP_SHELL = ['./', './index.html', './styles.css', './theme.css', './app.js', './manifest.webmanifest', './login/', './logout/', './icon.svg', './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-512.png', './icons/apple-touch-icon.png', './icons/favicon-32.png', './vendor/nepali-date-converter.umd.js'];
+const CACHE_NAME = 'careledger-shell-v8';
+const APP_SHELL = ['./', './index.html', './styles.css', './theme.css', './mobile.css', './app.js', './manifest.webmanifest', './login/', './logout/', './icon.svg', './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-512.png', './icons/apple-touch-icon.png', './icons/favicon-32.png', './vendor/nepali-date-converter.umd.js'];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)));

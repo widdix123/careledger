@@ -209,3 +209,23 @@ tbody tr:hover td{background:#f7faff}
 .user-profile small{font-size:11px}
 .sidebar{padding-left:14px;padding-right:14px}
 @media(min-width:721px){.sidebar{width:272px;flex:none}}
+
+/* Patient status (set by doctor) */
+.status-badge.ongoing{background:var(--teal-soft);color:var(--teal)}
+.status-select{-webkit-appearance:none;appearance:none;border:1px solid transparent;border-radius:20px;padding:6px 28px 6px 12px;font:700 12px var(--ui);cursor:pointer;background-repeat:no-repeat;background-position:right 10px center;background-size:10px 7px}
+.status-select.ongoing{background-color:var(--teal-soft);color:var(--teal);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%230e63d6' stroke-width='2'/%3E%3C/svg%3E")}
+.status-select.outstanding{background-color:var(--coral-soft);color:var(--coral);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23e5484d' stroke-width='2'/%3E%3C/svg%3E")}
+.status-select.cleared{background-color:var(--green-soft);color:var(--green);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%2312a36b' stroke-width='2'/%3E%3C/svg%3E")}
+.status-select:hover{border-color:currentColor}
+.status-select:focus{outline:3px solid var(--teal-soft)}
+
+/* Doctor dues in red */
+.stat-card>strong.due-amount{color:var(--coral)}
+.trend.due{color:var(--coral)}
+.due-card .stat-icon{background:var(--coral-soft);color:var(--coral);font-weight:800}
+.overview-pane>.section-intro:first-child{margin-top:0}
+
+/* Mobile bar hidden on larger screens */
+.mobile-bar,.drawer-backdrop{display:none}
+/* Patient register has no add buttons */
+body[data-view="patients"] #addPatientButton{display:none}
